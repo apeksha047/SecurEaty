@@ -15,17 +15,13 @@ public class Splash_Screen_Activity extends AppCompatActivity {
         //Show the splash screen
         setContentView(R.layout.activity_splash__screen_);
 
-        //Handler will
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             //if any code written in the run() method, itll run after 4sec=4000msec of this splash activity
             public void run() {
 
-                //after 4sec we want to open our MainActivity and for that we have to use Intent
                 startActivity(new Intent(Splash_Screen_Activity.this, SideMenuBar.class));
-
-                //do not ever forget to finish the activity whenever you run the Intent :)
                 finish();
             }
         }, 4000);
