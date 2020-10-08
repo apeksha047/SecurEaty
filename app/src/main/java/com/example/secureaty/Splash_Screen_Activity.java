@@ -21,7 +21,7 @@ public class Splash_Screen_Activity extends AppCompatActivity {
             //if any code written in the run() method, itll run after 4sec=4000msec of this splash activity
             public void run() {
 
-                startActivity(new Intent(Splash_Screen_Activity.this, SideMenuBar.class));
+                startActivity(new Intent(Splash_Screen_Activity.this, MainActivity.class));
                 finish();
             }
         }, 4000);
