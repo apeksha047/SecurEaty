@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,120 +19,68 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.lang.Override;
+
 
 public class ChooseFileActivity extends AppCompatActivity {
-   // MyCustomAdapter customAdapter=null;
+    Button nextBtn,deselectAllBtn,selectAllBtn;
+    ArrayList<String> selectedItems=new ArrayList<>();
+    private ListView lv;
+    private ArrayList<ListIViewItems> listIViewItems;
+    private CustomAdapter customAdapter;
+
+    private  String[] fileList = new String[]{"file1", "file2", "file3", "file4", "file5", "file6", "file7", "file8", "file9", "file10", "file11","file12", "file13", "file14", "file15", "file16", "file17"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_file);
 
-        displayListView();
-    }
+        lv = (ListView) findViewById(R.id.lv);
+        nextBtn = (Button) findViewById(R.id.btn_next);
+        deselectAllBtn = (Button) findViewById(R.id.btn_deselectAll);
+        selectAllBtn = (Button) findViewById(R.id.btn_selectAll);
 
-    public void displayListView(){
-        ArrayList<ListViewItems> fileList = new ArrayList<ListViewItems>();
+        listIViewItems = getFile(false);
+        customAdapter = new CustomAdapter(this,listIViewItems);
+        lv.setAdapter(customAdapter);
 
-        ListViewItems items= new ListViewItems("file1",false);
-        fileList.add(items);
-        items= new ListViewItems("file2",false);
-        fileList.add(items);
-        items= new ListViewItems("file3",false);
-        fileList.add(items);
-        items= new ListViewItems("file4",false);
-        fileList.add(items);
-        items= new ListViewItems("file5",false);
-        fileList.add(items);
-        items= new ListViewItems("file6",false);
-        fileList.add(items);
-        items= new ListViewItems("file7",false);
-        fileList.add(items);
-        items= new ListViewItems("file8",false);
-        fileList.add(items);
-        items= new ListViewItems("file9",false);
-        fileList.add(items);
-        items= new ListViewItems("file10",false);
-        fileList.add(items);
-
-        //create arrayadapter from string array
-        /*customAdapter=new MyCustomAdapter(this, R.layout.activity_choose_file);
-        ListView listView=(ListView) findViewById(R.id.list_view);
-
-        listView.setAdapter(customAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        selectAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListViewItems viewItems=(ListViewItems) parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),"Clicked -- "+ viewItems.getName(),Toast.LENGTH_LONG).show();
-
+            public void onClick(View v) {
+                listIViewItems = getFile(true);
+                customAdapter = new CustomAdapter(ChooseFileActivity.this,listIViewItems);
+                lv.setAdapter(customAdapter);
             }
-        });*/
-    }
-
-    public class MyCustomerAdapter extends ArrayAdapter<ListViewItems>{
-        private ArrayList<ListViewItems> fileList;
-
-            public MyCustomerAdapter(Context context, int textviewResouceid, ArrayList<ListViewItems> fileList){
-                super(context,textviewResouceid,fileList);
-                this.fileList=new ArrayList<ListViewItems>();
-                this.fileList.addAll(fileList);
-
+        });
+        deselectAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listIViewItems = getFile(false);
+                customAdapter = new CustomAdapter(ChooseFileActivity.this,listIViewItems);
+                lv.setAdapter(customAdapter);
             }
+        });
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChooseFileActivity.this,NextActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
 
-    private class ViewHolder{
-        TextView code;
-        CheckBox name;
-    }
-/*
-    @NonNull
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return super.getView(position,convertView,parent);
+    private ArrayList<ListIViewItems> getFile(boolean isSelect){
+        ArrayList<ListIViewItems> list = new ArrayList<>();
+        for(int i = 0; i < 17; i++){
 
-        ViewHolder holder = null;
-        Log.v("ConvertView", String.valueOf(position));
-
-        if (convertView == null) {
-            LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = vi.inflate(R.layout.text_plus_checkbox, null);
-
-            holder = new ViewHolder();
-            holder.code = (TextView) convertView.findViewById(R.id.code);
-            holder.name = (CheckBox) convertView.findViewById(R.id.checkbox1);
-
-            convertView.setTag(holder);
-
-            holder.name.setOnClickListener( new View.OnClickListener() {
-                public void onClick(View v) {
-                    CheckBox cb = (CheckBox) v ;
-                    ListViewItems items = (ListViewItems) cb.getTag();
-                    Toast.makeText(getApplicationContext(),"Clicked on Checkbox: "+ cb.getText() +" is "+ cb.isChecked(),Toast.LENGTH_LONG).show();
-                    items.setSelected(cb.isChecked());
-                }
-            });
+            ListIViewItems items = new ListIViewItems();
+            items.setSelected(isSelect);
+            items.setFile(fileList[i]);
+            list.add(items);
         }
-        else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        ListViewItems items = fileList.get(position);
-        holder.code.setText(" (" +  items.getCode() + ")");
-        holder.name.setText(items.getName());
-        holder.name.setChecked(items.getSelected());
-        holder.name.setTag(items);
-
-        return convertView;
+        return list;
     }
 
-    private void checkButtonClick() {
-
-
-        Button myButton = (Button) findViewById(R.id.findSelected);
-        myButton*/
 }
-
