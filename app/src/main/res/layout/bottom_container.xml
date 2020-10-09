@@ -45,6 +45,7 @@
 
     </LinearLayout>
 
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -58,7 +59,7 @@
             android:textSize="17sp"
             android:textColor="@color/colorAccent"
             android:background="@color/ic_launcher_app_logo_background"/>
-    </LinearLayout>
+    </LinearLayout>-->
 
 
 </LinearLayout>
