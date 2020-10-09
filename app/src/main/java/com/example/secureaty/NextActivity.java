@@ -17,7 +17,7 @@ public class NextActivity extends AppCompatActivity {
 
         for (int i = 0; i < CustomAdapter.listIViewItemsArrayList.size(); i++){
             if(CustomAdapter.listIViewItemsArrayList.get(i).getSelected()) {
-                txt_view.setText(txt_view.getText() + " " + CustomAdapter.listIViewItemsArrayList.get(i).getFile());
+                txt_view.setText(txt_view.getText() + "\n" + CustomAdapter.listIViewItemsArrayList.get(i).getFile());
             }
         }
     }

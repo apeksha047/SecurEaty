@@ -28,7 +28,7 @@ public class ChooseFileActivity extends AppCompatActivity {
     private ArrayList<ListIViewItems> listIViewItems;
     private CustomAdapter customAdapter;
 
-    private  String[] fileList = new String[]{"file1", "file2", "file3", "file4", "file5", "file6", "file7", "file8", "file9", "file10", "file11"};
+    private  String[] fileList = new String[]{"file1", "file2", "file3", "file4", "file5", "file6", "file7", "file8", "file9", "file10", "file11","file12", "file13", "file14", "file15", "file16", "file17"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class ChooseFileActivity extends AppCompatActivity {
 
     private ArrayList<ListIViewItems> getFile(boolean isSelect){
         ArrayList<ListIViewItems> list = new ArrayList<>();
-        for(int i = 0; i < 11; i++){
+        for(int i = 0; i < 17; i++){
 
             ListIViewItems items = new ListIViewItems();
             items.setSelected(isSelect);
