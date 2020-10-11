@@ -6,22 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.widget.AppCompatTextView;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends BaseAdapter {
+public class PackageListAdapter extends BaseAdapter {
 
     private Context context;
-    public  static ArrayList<ListIViewItems> listIViewItemsArrayList;
+    public  static ArrayList<ListViewItem> viewItems;
 
-    public CustomAdapter(Context context, ArrayList<ListIViewItems> listIViewItemsArrayList){
+    public PackageListAdapter(Context context, ArrayList<ListViewItem> viewItems){
         this.context=context;
-        this.listIViewItemsArrayList=listIViewItemsArrayList;
+        this.viewItems = viewItems;
     }
 
     @Override
@@ -36,12 +34,12 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public int getCount(){
-        return listIViewItemsArrayList.size();
+        return viewItems.size();
     }
 
     @Override
     public Object getItem(int position){
-        return listIViewItemsArrayList.get(position);
+        return viewItems.get(position);
     }
 
     @Override
@@ -60,6 +58,7 @@ public class CustomAdapter extends BaseAdapter {
 
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox_plus);
             holder.tvFile = (TextView) convertView.findViewById(R.id.file);
+            holder.icon = convertView.findViewById(R.id.icon);
 
             convertView.setTag(holder);
         }else {
@@ -68,10 +67,9 @@ public class CustomAdapter extends BaseAdapter {
         }
 
 
-       // holder.checkBox.setText("Checkbox "+position);
-        holder.tvFile.setText(listIViewItemsArrayList.get(position).getFile());
-
-        holder.checkBox.setChecked(listIViewItemsArrayList.get(position).getSelected());
+        holder.tvFile.setText(viewItems.get(position).getPackageName());
+        holder.icon.setImageDrawable(viewItems.get(position).icon);
+        holder.checkBox.setChecked(viewItems.get(position).getSelected());
 
         holder.checkBox.setTag(R.integer.btnplusview, convertView);
         holder.checkBox.setTag( position);
@@ -84,10 +82,10 @@ public class CustomAdapter extends BaseAdapter {
                 Integer pos = (Integer)  holder.checkBox.getTag();
                 Toast.makeText(context, "Checkbox "+pos+" clicked!", Toast.LENGTH_SHORT).show();
 
-                if(listIViewItemsArrayList.get(pos).getSelected()){
-                    listIViewItemsArrayList.get(pos).setSelected(false);
+                if(viewItems.get(pos).getSelected()){
+                    viewItems.get(pos).setSelected(false);
                 }else {
-                    listIViewItemsArrayList.get(pos).setSelected(true);
+                    viewItems.get(pos).setSelected(true);
                 }
 
             }
@@ -100,6 +98,7 @@ public class CustomAdapter extends BaseAdapter {
 
         protected CheckBox checkBox;
         private TextView tvFile;
+        public ImageView icon;
 
     }
 }

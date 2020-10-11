@@ -3,61 +3,68 @@ package com.example.secureaty;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ChooseFileActivity extends AppCompatActivity {
-    Button nextBtn,deselectAllBtn,selectAllBtn;
-    ArrayList<String> selectedItems=new ArrayList<>();
-    private ListView lv;
-    private ArrayList<ListIViewItems> listIViewItems;
-    private CustomAdapter customAdapter;
 
-    private  String[] fileList = new String[]{"file1", "file2", "file3", "file4", "file5", "file6", "file7", "file8", "file9", "file10", "file11","file12", "file13", "file14", "file15", "file16", "file17"};
+    // stuff to get permission to internal files
+    private PermissionResolver permissionResolver;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (!permissionResolver.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+    // end of stuff to get permission to internal files
+
+    Button nextBtn,deselectAllBtn,selectAllBtn;
+
+    private ListView lv;
+    private ArrayList<ListViewItem> listViewItems;
+    private PackageListAdapter packageListAdapter;
+    private List<PackageInfo> packages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_file);
 
+        packages = getPackageManager().getInstalledPackages(PackageManager.GET_META_DATA);
         lv = (ListView) findViewById(R.id.lv);
         nextBtn = (Button) findViewById(R.id.btn_next);
         deselectAllBtn = (Button) findViewById(R.id.btn_deselectAll);
         selectAllBtn = (Button) findViewById(R.id.btn_selectAll);
 
-        listIViewItems = getFile(false);
-        customAdapter = new CustomAdapter(this,listIViewItems);
-        lv.setAdapter(customAdapter);
+        listViewItems = getFiles(false);
+        packageListAdapter = new PackageListAdapter(this, listViewItems);
+        lv.setAdapter(packageListAdapter);
 
         selectAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listIViewItems = getFile(true);
-                customAdapter = new CustomAdapter(ChooseFileActivity.this,listIViewItems);
-                lv.setAdapter(customAdapter);
+                listViewItems = getFiles(true);
+                packageListAdapter = new PackageListAdapter(ChooseFileActivity.this, listViewItems);
+                lv.setAdapter(packageListAdapter);
             }
         });
         deselectAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listIViewItems = getFile(false);
-                customAdapter = new CustomAdapter(ChooseFileActivity.this,listIViewItems);
-                lv.setAdapter(customAdapter);
+                listViewItems = getFiles(false);
+                packageListAdapter = new PackageListAdapter(ChooseFileActivity.this, listViewItems);
+                lv.setAdapter(packageListAdapter);
             }
         });
         nextBtn.setOnClickListener(new View.OnClickListener() {
@@ -67,20 +74,40 @@ public class ChooseFileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        permissionResolver = new PermissionResolver(this);
 
     }
 
-    private ArrayList<ListIViewItems> getFile(boolean isSelect){
-        ArrayList<ListIViewItems> list = new ArrayList<>();
-        for(int i = 0; i < 17; i++){
 
-            ListIViewItems items = new ListIViewItems();
-            items.setSelected(isSelect);
-            items.setFile(fileList[i]);
-            list.add(items);
+    private ArrayList<ListViewItem> getFiles(boolean isSelect){
+        ArrayList<ListViewItem> list = new ArrayList<>();
+        for(PackageInfo p: packages){   //getting apk names from packageInfo
+            if((p.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {   //check if the application is system and exclude if yes
+                Log.d("toString", p.packageName);
+
+                String name = getPackageManager().getApplicationLabel(p.applicationInfo).toString();
+
+                ListViewItem item = new ListViewItem();
+                item.icon = getPackageManager().getApplicationIcon(p.applicationInfo);
+                item.setSelected(isSelect);
+                item.setPackageName(name);
+                list.add(item);
+            }
         }
         return list;
     }
-
 }
+//  ----extract file (for future processing)----
+//    public List<String> getPackageInfo(){
+//        List<File> files = new ArrayList<File>();
+//        for(PackageInfo p: packages){
+//            if((p.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {   //check if the application is system and exclude if yes
+//                Log.d("toString", p.toString());
+//                files.add(new File(p.applicationInfo.sourceDir));
+//            }
+//        }
+//        Log.d("files", "" + files);
+
+
+
+
