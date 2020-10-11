@@ -15,9 +15,9 @@ public class NextActivity extends AppCompatActivity {
 
         txt_view = (TextView) findViewById(R.id.text_view);
 
-        for (int i = 0; i < CustomAdapter.listIViewItemsArrayList.size(); i++){
-            if(CustomAdapter.listIViewItemsArrayList.get(i).getSelected()) {
-                txt_view.setText(txt_view.getText() + "\n" + CustomAdapter.listIViewItemsArrayList.get(i).getFile());
+        for (int i = 0; i < PackageListAdapter.viewItems.size(); i++){
+            if(PackageListAdapter.viewItems.get(i).getSelected()) {
+                txt_view.setText(txt_view.getText() + "\n" + PackageListAdapter.viewItems.get(i).getPackageName());
             }
         }
     }
