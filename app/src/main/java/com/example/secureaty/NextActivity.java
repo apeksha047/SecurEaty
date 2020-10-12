@@ -14,7 +14,6 @@ import java.util.List;
 
 public class NextActivity extends AppCompatActivity {
     private TextView txt_view;
-    Bundle bundle = getIntent().getExtras();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

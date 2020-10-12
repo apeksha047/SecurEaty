@@ -36,13 +36,13 @@ public class ChooseFileActivity extends AppCompatActivity {
     private PackageListAdapter packageListAdapter;
     private List<PackageInfo> packages;
     public static List<PackageInfo> selectedPackages = new ArrayList<>();
-    private PackageManager manager = getPackageManager();
+    private PackageManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_file);
-
+        manager = getPackageManager();
         packages = manager.getInstalledPackages(PackageManager.GET_META_DATA);
         lv = (ListView) findViewById(R.id.lv);
         nextBtn = (Button) findViewById(R.id.btn_next);
