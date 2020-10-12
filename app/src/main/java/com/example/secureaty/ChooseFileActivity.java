@@ -35,13 +35,15 @@ public class ChooseFileActivity extends AppCompatActivity {
     private ArrayList<ListViewItem> listViewItems;
     private PackageListAdapter packageListAdapter;
     private List<PackageInfo> packages;
+    public static List<PackageInfo> selectedPackages = new ArrayList<>();
+    private PackageManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_file);
-
-        packages = getPackageManager().getInstalledPackages(PackageManager.GET_META_DATA);
+        manager = getPackageManager();
+        packages = manager.getInstalledPackages(PackageManager.GET_META_DATA);
         lv = (ListView) findViewById(R.id.lv);
         nextBtn = (Button) findViewById(R.id.btn_next);
         deselectAllBtn = (Button) findViewById(R.id.btn_deselectAll);
@@ -71,6 +73,16 @@ public class ChooseFileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChooseFileActivity.this,NextActivity.class);
+                ArrayList<PackageInfo> list = new ArrayList<>();
+                for (PackageInfo pkg : packages) {
+                    String appName = manager.getApplicationLabel(pkg.applicationInfo).toString();
+                    for (ListViewItem item : listViewItems) {
+                        if (item.getSelected() && (item.getPackageName() == appName)) {
+                            selectedPackages.add(pkg);
+                        }
+                    }
+                }
+
                 startActivity(intent);
             }
         });
@@ -85,10 +97,10 @@ public class ChooseFileActivity extends AppCompatActivity {
             if((p.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {   //check if the application is system and exclude if yes
                 Log.d("toString", p.packageName);
 
-                String name = getPackageManager().getApplicationLabel(p.applicationInfo).toString();
+                String name = manager.getApplicationLabel(p.applicationInfo).toString();
 
                 ListViewItem item = new ListViewItem();
-                item.icon = getPackageManager().getApplicationIcon(p.applicationInfo);
+                item.icon = manager.getApplicationIcon(p.applicationInfo);
                 item.setSelected(isSelect);
                 item.setPackageName(name);
                 list.add(item);
@@ -97,17 +109,6 @@ public class ChooseFileActivity extends AppCompatActivity {
         return list;
     }
 }
-//  ----extract file (for future processing)----
-//    public List<String> getPackageInfo(){
-//        List<File> files = new ArrayList<File>();
-//        for(PackageInfo p: packages){
-//            if((p.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {   //check if the application is system and exclude if yes
-//                Log.d("toString", p.toString());
-//                files.add(new File(p.applicationInfo.sourceDir));
-//            }
-//        }
-//        Log.d("files", "" + files);
-
 
 
 

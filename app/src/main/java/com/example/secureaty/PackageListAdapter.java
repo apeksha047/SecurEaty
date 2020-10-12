@@ -80,7 +80,7 @@ public class PackageListAdapter extends BaseAdapter {
                 View tempview = (View) holder.checkBox.getTag(R.integer.btnplusview);
                 TextView tv = (TextView) tempview.findViewById(R.id.file);
                 Integer pos = (Integer)  holder.checkBox.getTag();
-                Toast.makeText(context, "Checkbox "+pos+" clicked!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Checkbox "+(pos+1)+" clicked!", Toast.LENGTH_SHORT).show();
 
                 if(viewItems.get(pos).getSelected()){
                     viewItems.get(pos).setSelected(false);
