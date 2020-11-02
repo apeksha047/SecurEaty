@@ -2,7 +2,6 @@ package com.example.secureaty;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,32 +67,57 @@ public class ChooseFileActivity extends AppCompatActivity {
                 lv.setAdapter(packageListAdapter);
             }
         });
-        nextBtn.setOnClickListener(new View.OnClickListener() {
+
+        final String sessionId = getIntent().getExtras().getString("EXTRA_SESSION_ID");
+
+        nextBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChooseFileActivity.this,NextActivity.class);
-                ArrayList<PackageInfo> list = new ArrayList<>();
-                for (PackageInfo pkg : packages) {
-                    String appName = manager.getApplicationLabel(pkg.applicationInfo).toString();
-                    for (ListViewItem item : listViewItems) {
-                        if (item.getSelected() && (item.getPackageName() == appName)) {
-                            selectedPackages.add(pkg);
+
+                if(sessionId.equals("0"))
+                {
+                    Intent intent = new Intent(ChooseFileActivity.this, NextActivity.class);
+                    ArrayList<PackageInfo> list = new ArrayList<>();
+                    for (PackageInfo pkg : packages) {
+                        String appName = manager.getApplicationLabel(pkg.applicationInfo).toString();
+                        for (ListViewItem item : listViewItems) {
+                            if (item.getSelected() && (item.getPackageName() == appName)) {
+                                selectedPackages.add(pkg);
+                            }
                         }
                     }
+                    startActivity(intent);
                 }
-
-                startActivity(intent);
+                else if(sessionId.equals("1"))
+                {
+                    Intent intent = new Intent(ChooseFileActivity.this, pControllerActivity.class);
+                    ArrayList<PackageInfo> list = new ArrayList<>();
+                    for (PackageInfo pkg : packages)
+                    {
+                        String appName = manager.getApplicationLabel(pkg.applicationInfo).toString();
+                        for (ListViewItem item : listViewItems)
+                        {
+                            if (item.getSelected() && (item.getPackageName() == appName)) {
+                                selectedPackages.add(pkg);
+                            }
+                        }
+                    }
+                    startActivity(intent);
+                }
             }
         });
         permissionResolver = new PermissionResolver(this);
-
     }
 
+    private ArrayList<ListViewItem> getFiles(boolean isSelect)
+    {
 
-    private ArrayList<ListViewItem> getFiles(boolean isSelect){
         ArrayList<ListViewItem> list = new ArrayList<>();
-        for(PackageInfo p: packages){   //getting apk names from packageInfo
-            if((p.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {   //check if the application is system and exclude if yes
+        for(PackageInfo p: packages)
+        {   //getting apk names from packageInfo
+            if((p.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+            {   //check if the application is system and exclude if yes
                 Log.d("toString", p.packageName);
 
                 String name = manager.getApplicationLabel(p.applicationInfo).toString();

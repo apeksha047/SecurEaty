@@ -19,7 +19,6 @@ public class NextActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next);
-
         txt_view = (TextView) findViewById(R.id.text_view);
 
         for (ListViewItem item : PackageListAdapter.viewItems) {

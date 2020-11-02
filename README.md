@@ -1,14 +1,14 @@
 # SecurEaty
 
-SplashScreen done(Apeksha)
+SplashScreen done(Ap)
 
-Logo done(Apeksha)
+Logo done(Ap)
 
-MainActivity-Scan done(Apeksha)
+MainActivity-Scan done(Ap)
 
-ChooseFileAcivity In progress (Apeksha)
+ChooseFileAcivity In progress (Ap)
 Static done(Apeksha)
 
 apk extraction done(Maryana)
 
-permission-controller Acitivity Inprogress(Apeksha)
+permission-controller activity Inprogress(Ap)
