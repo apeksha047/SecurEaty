@@ -29,7 +29,9 @@ public class NextActivity extends AppCompatActivity {
         }
 
         List<File> files = getPackageFiles();
-        decompileFile(files.get(0));
+        for(File f: files) {
+            decompileFile(f);
+        }
     }
 
 //      ----extract files (for future processing)----
