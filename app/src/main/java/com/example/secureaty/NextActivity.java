@@ -2,7 +2,6 @@ package com.example.secureaty;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +18,7 @@ public class NextActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next);
+        Log.d("Next activity", "Loaded");
 
         txt_view = (TextView) findViewById(R.id.text_view);
 
@@ -26,6 +26,11 @@ public class NextActivity extends AppCompatActivity {
             if(item.getSelected()) {
                 txt_view.setText(txt_view.getText() + "\n" + item.getPackageName());
             }
+        }
+
+        List<File> files = getPackageFiles();
+        for(File f: files) {
+            decompileFile(f);
         }
     }
 
@@ -39,6 +44,10 @@ public class NextActivity extends AppCompatActivity {
 
             return files;
         }
+
+    public void decompileFile(File file){
+            new DecompileAction().execute(file);
+    }
 
 
 }
