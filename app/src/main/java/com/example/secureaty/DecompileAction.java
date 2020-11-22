@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -131,18 +132,27 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
 
     private String extractSources(File unpackedApkDir) {
         Log.d("Extracting sources", unpackedApkDir.getPath());
-        String result = "";
+        StringBuilder result = new StringBuilder();
+        File manifestFile = new File(unpackedApkDir.getPath() + "/AndroidManifest.xml");
+        try {
+            Scanner scanner = new Scanner(manifestFile);
+            result.append(scanner.useDelimiter("\0").next());
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            Log.d("Extracting sources", "File not found: " + manifestFile.getPath());
+        }
         for (File file : getSourceFilesRecursive(unpackedApkDir)) {
+            Log.d("Extracting sources", "file: " + file);
             try {
                 Scanner scanner = new Scanner(file);
-                result += scanner.useDelimiter("\\A").next();
+                result.append(scanner.useDelimiter("\0").next());
                 scanner.close();
             } catch (FileNotFoundException e) {
                 Log.d("Extracting sources", "File not found: " + file.getPath());
             }
         }
         Log.d("Extracting sources", "Done: " + unpackedApkDir.getPath());
-        return result;
+        return result.toString();
     }
 
     private List<File> getSourceFilesRecursive(File pFile)
@@ -151,10 +161,7 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
         for(File file : pFile.listFiles()) {
             if(file.isDirectory()) {
                 found.addAll(getSourceFilesRecursive(file));
-            } else if (
-                    file.getName().endsWith(".java") ||
-                    file.getName() == "AndroidManifest.xml"
-            ){
+            } else if (file.getName().endsWith(".java")){
                 found.add(file);
             }
         }
