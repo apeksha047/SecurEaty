@@ -36,6 +36,14 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
             File unpackedDir = unzip(zipFile);
             String code = extractSources(unpackedDir);
             Log.d("Done", "Symbols read: " + code.length());
+//            File DOAcode = File.createTempFile("PleaseWorkcode", ".txt", null);
+//            FileWriter fw = new FileWriter(DOAcode);
+//            fw.write(code);
+//            fw.close();
+//            Log.d("File created", "file created");
+            boolean DOAdetected = DOADetector.detect(code);
+            Log.d("DOAdetected", String.valueOf(DOAdetected));
+
         } catch (Exception e) {
             this.exception = e;
         }
@@ -49,19 +57,22 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
 
     private String decompile(File file) throws IOException  {
         Log.d("Decompile file", file.getName());
-        try {
-            MultipartUtility multipart = new MultipartUtility(decompileUrl, "UTF-8");
-            multipart.addFilePart("apk", file);
-            String response = multipart.finish(); // response from server.
-            Matcher m = decompiledZipPattern.matcher(response);
-            m.find();
-            String downloadUrl = m.group();
-            Log.d("Decompile file", "Success: " + downloadUrl);
-            return downloadUrl;
-        } catch (IOException e) {
-            Log.d("Decompile file", "Error: " + e.toString());
-            throw e;
+        for(int i = 0; i<2; i++) {
+            try {
+                MultipartUtility multipart = new MultipartUtility(decompileUrl, "UTF-8");
+                multipart.addFilePart("apk", file);
+                String response = multipart.finish(); // response from server.
+                Matcher m = decompiledZipPattern.matcher(response);
+                m.find();
+                String downloadUrl = m.group().replace("https", "http");
+                Log.d("Decompile file", "Success: " + downloadUrl);
+                return downloadUrl;
+            } catch (IOException e){
+                Log.d("Decompile file response", "Error: " + e.toString() + ". Retrying...");
+            }
+
         }
+        throw new IOException("Something went wrong");
     }
 
     private File download(String url) throws IOException {
