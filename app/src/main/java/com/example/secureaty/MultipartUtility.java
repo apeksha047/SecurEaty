@@ -1,3 +1,10 @@
+/*
+code by: Nam Ha Minh
+sourse: https://www.codejava.net/java-se/networking/upload-files-by-sending-multipart-request-programmatically
+
+ */
+
+
 package com.example.secureaty;
 
 import android.util.Log;
@@ -34,7 +41,7 @@ public class MultipartUtility {     // name comes from the format of HTTP reques
         boundary = "===" + System.currentTimeMillis() + "===";
 
         URL url = new URL(requestURL);
-        Log.e("URL", "URL : " + requestURL.toString());
+        Log.e("URL", "URL : " + requestURL);
         httpConn = (HttpURLConnection) url.openConnection();
         httpConn.setUseCaches(false);
         httpConn.setDoOutput(true); // indicates POST method
