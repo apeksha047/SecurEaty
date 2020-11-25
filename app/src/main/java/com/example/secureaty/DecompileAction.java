@@ -36,13 +36,11 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
             File unpackedDir = unzip(zipFile);
             String code = extractSources(unpackedDir);
             Log.d("Done", "Symbols read: " + code.length());
-//            File DOAcode = File.createTempFile("PleaseWorkcode", ".txt", null);
-//            FileWriter fw = new FileWriter(DOAcode);
-//            fw.write(code);
-//            fw.close();
-//            Log.d("File created", "file created");
+
             boolean DOAdetected = DOADetector.detect(code);
+            boolean MetasploitDetected = MetasploitDetector.detect(code);
             Log.d("DOAdetected", String.valueOf(DOAdetected));
+            Log.d("Metasploitdetected", String.valueOf(MetasploitDetected));
 
         } catch (Exception e) {
             this.exception = e;
