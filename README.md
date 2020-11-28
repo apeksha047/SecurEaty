@@ -6,7 +6,7 @@ Logo done(Apeksha)
 
 MainActivity-Scan done(Apeksha)
 
-ChooseFileAcivity In progress (Apeksha)
+ChooseFileAcivity done (Apeksha)
 Static done(Apeksha)
 
 apk extraction done(Maryana)
