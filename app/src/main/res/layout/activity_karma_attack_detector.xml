@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Auto start at boot"
+            android:textColor="@color/colorAccent"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Switch
@@ -48,6 +49,7 @@
             android:labelFor="@+id/scanFrequency"
             android:padding="5dp"
             android:text="Scan Frequency (in seconds)"
+            android:textColor="@color/colorAccent"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
@@ -67,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -76,14 +78,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="startScanner"
-            android:text="Start" />
+            android:textColor="@color/colorAccent"
+            android:background="@color/ic_launcher_app_logo_background"
+            android:layout_weight="1"
+            android:text="Start"
+            android:layout_margin="2dp"/>
 
         <Button
             android:id="@+id/buttonStop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="stopScanner"
-            android:text="Stop" />
+            android:textColor="@color/colorAccent"
+            android:background="@color/ic_launcher_app_logo_background"
+            android:layout_weight="1"
+            android:text="Stop"
+            android:layout_margin="2dp"/>
     </LinearLayout>
 
     <TextView
@@ -92,6 +102,8 @@
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
         android:text="Log"
+        android:layout_marginTop="15dp"
+        android:textSize="22sp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -104,6 +116,7 @@
         android:scrollIndicators="right"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
         android:textIsSelectable="false"
-        tools:text="Test log entry" />
+        tools:text="Test log entry"
+         />
 
 </LinearLayout>
