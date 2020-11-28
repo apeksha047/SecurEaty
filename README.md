@@ -14,5 +14,6 @@ apk extraction done(Maryana)
 permission-controller Acitivity Inprogress(Apeksha)
 
 decompilation -done (Maryana)
+detectDOA,metasploit done(Maryana)
 
 Karma detector Activity (Apeksha)
