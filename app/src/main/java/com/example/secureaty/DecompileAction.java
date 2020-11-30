@@ -31,14 +31,22 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
 
     protected String doInBackground(File... file) {
         try {
+
             String downloadUrl = decompile(file[0]);
+            //progress +1
             File zipFile = download(downloadUrl);
+            //progress +1
             File unpackedDir = unzip(zipFile);
+            //progress +1
             String code = extractSources(unpackedDir);
+            //progress + 1
             Log.d("Done", "Symbols read: " + code.length());
 
             boolean DOAdetected = DOADetector.detect(code);
+            //progress +1
             boolean MetasploitDetected = MetasploitDetector.detect(code);
+            //progress +1 = 100%
+
             Log.d("DOAdetected", String.valueOf(DOAdetected));
             Log.d("Metasploitdetected", String.valueOf(MetasploitDetected));
 

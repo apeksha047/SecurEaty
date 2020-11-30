@@ -25,6 +25,8 @@ public class NextActivity extends AppCompatActivity {
         for (ListViewItem item : PackageListAdapter.viewItems) {
             if(item.getSelected()) {
                 txt_view.setText(txt_view.getText() + "\n" + item.getPackageName());
+                // add progress bar view
+
             }
         }
 
