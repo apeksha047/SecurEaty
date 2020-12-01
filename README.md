@@ -18,4 +18,6 @@ detectDOA,metasploit done(Maryana)
 
 Karma detector Activity -done(Apeksha)
 
+Permission controller -done(Mehak,Darshan)
+
 progressBar In progress
