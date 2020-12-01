@@ -16,4 +16,6 @@ permission-controller Acitivity Inprogress(Apeksha)
 decompilation -done (Maryana)
 detectDOA,metasploit done(Maryana)
 
-Karma detector Activity (Apeksha)
+Karma detector Activity -done(Apeksha)
+
+progressBar In progress(Apeksha,Maryana)
