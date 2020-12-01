@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -22,13 +22,19 @@
         android:roundIcon="@mipmap/ic_launcher_app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".KarmaAttackDetector"></activity>
-        <receiver android:name="com.example.secureaty.WiFiScannerService$BroadcastResponseReceiver">
-            <intent-filter> <action android:name="android.intent.action.BOOT_COMPLETED" /> </intent-filter>
+        <activity android:name=".ScanWithProgressBar"></activity>
+        <activity android:name=".KarmaAttackDetector" />
+
+        <receiver android:name=".WiFiScannerService$BroadcastResponseReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
+
         <service
-            android:name="com.example.secureaty.WiFiScannerService"
+            android:name=".WiFiScannerService"
             android:exported="false" />
+
         <activity android:name=".NextActivity" />
         <activity android:name=".ChooseFileActivity" />
         <activity

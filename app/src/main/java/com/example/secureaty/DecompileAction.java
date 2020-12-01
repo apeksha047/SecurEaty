@@ -29,25 +29,27 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
     private String decompileUrl = "http://app.apkdecompilers.com/app.php";
     private Pattern decompiledZipPattern = Pattern.compile("https:\\/\\/app.apkdecompilers.com\\/download\\/.*\\.apk\\.zip");
 
+
     protected String doInBackground(File... file) {
         try {
-            String downloadUrl = decompile(file[0]);
-            File zipFile = download(downloadUrl);
-            File unpackedDir = unzip(zipFile);
-            String code = extractSources(unpackedDir);
+            String downloadUrl = decompile(file[0]); //progress by +1
+            File zipFile = download(downloadUrl); //progress by +1
+            File unpackedDir = unzip(zipFile); //progress by +1
+            String code = extractSources(unpackedDir); //progress by +1
             Log.d("Done", "Symbols read: " + code.length());
-//            File DOAcode = File.createTempFile("PleaseWorkcode", ".txt", null);
-//            FileWriter fw = new FileWriter(DOAcode);
-//            fw.write(code);
-//            fw.close();
-//            Log.d("File created", "file created");
+
             boolean DOAdetected = DOADetector.detect(code);
+            //progress by +1
             Log.d("DOAdetected", String.valueOf(DOAdetected));
 
         } catch (Exception e) {
             this.exception = e;
         }
         return null;
+    }
+
+    protected void onProgressUpdate(Integer... values){
+
     }
 
     protected void onPostExecute(String result) {
