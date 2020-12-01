@@ -18,4 +18,4 @@ detectDOA,metasploit done(Maryana)
 
 Karma detector Activity -done(Apeksha)
 
-progressBar In progress(Apeksha,Maryana)
+progressBar In progress
