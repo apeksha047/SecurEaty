@@ -29,6 +29,10 @@
         <service
             android:name="com.example.secureaty.WiFiScannerService"
             android:exported="false" />
+        <activity android:name=".InstalledAppsDetailsActivity"
+            android:label="@string/permissions"/>
+        <activity android:name=".AllInstalledAppsActivity"
+            android:label="@string/installed_apps"/>
         <activity android:name=".NextActivity" />
         <activity android:name=".ChooseFileActivity" />
         <activity

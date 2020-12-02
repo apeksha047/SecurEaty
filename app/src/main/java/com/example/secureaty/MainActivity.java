@@ -9,7 +9,7 @@ import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
-    Button Scanbtn,KarmaDetectorBtn;
+    Button Scanbtn,KarmaDetectorBtn, permissionControllerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Scanbtn = findViewById(R.id.Scanbutton);
         KarmaDetectorBtn = findViewById(R.id.karma_detector_btn);
+        permissionControllerBtn = (Button) findViewById(R.id.permissionControllerBtn);
 
         Scanbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,17 +32,38 @@ public class MainActivity extends AppCompatActivity {
                 KarmaAttackDetector();
             }
         });
-    }
 
+        permissionControllerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAllActivityInstalledIntent();
+            }
+        });
 
-    public void ChooseFileActivity(){
-        Intent intent_chooseFileActivity= new Intent(this,ChooseFileActivity.class);
-        startActivity(intent_chooseFileActivity);
     }
 
     public void KarmaAttackDetector(){
         Intent intent_karmaAttackDetector=new Intent(this,KarmaAttackDetector.class);
         startActivity(intent_karmaAttackDetector);
+    }
+
+    private void openAllActivityInstalledIntent(){
+        Intent allInstalledActivityIntent = new Intent(MainActivity.this, AllInstalledAppsActivity.class);
+        startActivity(allInstalledActivityIntent);
+    }
+
+    public void ChooseFileActivity() {
+//        Intent intent_chooseFileActivity= new Intent(this,ChooseFileActivity.class);
+//        startActivity(intent_chooseFileActivity);
+        Intent intent_chooseFileActivity = new Intent(this, ChooseFileActivity.class);
+        intent_chooseFileActivity.putExtra("EXTRA_SESSION_ID", "0");
+        startActivity(intent_chooseFileActivity);
+    }
+
+    public void check(View view) {
+        Intent intent_chooseFileActivity = new Intent(this, ChooseFileActivity.class);
+        intent_chooseFileActivity.putExtra("EXTRA_SESSION_ID", "1");
+        startActivity(intent_chooseFileActivity);
     }
 }
 

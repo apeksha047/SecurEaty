@@ -22,13 +22,24 @@
 
 
     <Button
+        android:id="@+id/permissionControllerBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:background="@color/ic_launcher_app_logo_background"
+        android:onClick="check"
+        android:text="Permission Checker"
+        android:textColor="@color/colorAccent"
+        android:textSize="19sp" />
+
+    <Button
         android:id="@+id/karma_detector_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ic_launcher_app_logo_background"
         android:text="Karma attack Detector"
         android:textColor="@color/colorAccent"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="450dp"
         android:textSize="19sp"
 
         ></Button>
