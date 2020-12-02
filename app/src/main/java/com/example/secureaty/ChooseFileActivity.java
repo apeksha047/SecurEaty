@@ -44,6 +44,7 @@ public class ChooseFileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_file);
         manager = getPackageManager();
         packages = manager.getInstalledPackages(PackageManager.GET_META_DATA);
+
         lv = (ListView) findViewById(R.id.lv);
         nextBtn = (Button) findViewById(R.id.btn_next);
         deselectAllBtn = (Button) findViewById(R.id.btn_deselectAll);

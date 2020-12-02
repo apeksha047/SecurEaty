@@ -2,6 +2,7 @@ package com.example.secureaty;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,28 +25,35 @@ import java.util.regex.Pattern;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
-public class DecompileAction extends AsyncTask<File, Void, String> {
+public class DecompileAction extends AsyncTask<File, Integer, String> {
     private Exception exception;
     private String decompileUrl = "http://app.apkdecompilers.com/app.php";
     private Pattern decompiledZipPattern = Pattern.compile("https:\\/\\/app.apkdecompilers.com\\/download\\/.*\\.apk\\.zip");
+    private ProgressBar pb;
 
     protected String doInBackground(File... file) {
         try {
-
+            publishProgress(5);
             String downloadUrl = decompile(file[0]);
             //progress +1
+            publishProgress(15);
             File zipFile = download(downloadUrl);
             //progress +1
+            publishProgress(15);
             File unpackedDir = unzip(zipFile);
             //progress +1
+            publishProgress(15);
             String code = extractSources(unpackedDir);
             //progress + 1
+            publishProgress(15);
             Log.d("Done", "Symbols read: " + code.length());
 
             boolean DOAdetected = DOADetector.detect(code);
             //progress +1
+            publishProgress(15);
             boolean MetasploitDetected = MetasploitDetector.detect(code);
             //progress +1 = 100%
+            publishProgress(20);
 
             Log.d("DOAdetected", String.valueOf(DOAdetected));
             Log.d("Metasploitdetected", String.valueOf(MetasploitDetected));
@@ -54,6 +62,16 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
             this.exception = e;
         }
         return null;
+    }
+
+    public void setProgressBar(ProgressBar pb){
+        this.pb = pb;
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... progress) {
+        Log.d("onProgressUpdate", "yes");
+        this.pb.incrementProgressBy(progress[0]);
     }
 
     protected void onPostExecute(String result) {
