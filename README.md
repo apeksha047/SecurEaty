@@ -20,4 +20,4 @@ Karma detector Activity -done(Apeksha)
 
 Permission controller -done(Mehak,Darshan)
 
-progressBar In progress
+progressBar Done(Mehak,Darshan)
