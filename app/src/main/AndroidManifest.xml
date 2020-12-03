@@ -21,7 +21,6 @@
             android:label="@string/permissions"/>
         <activity android:name=".AllInstalledAppsActivity"
             android:label="@string/installed_apps"/>
-        <activity android:name=".NextActivity" />
         <activity android:name=".ChooseFileActivity" />
         <activity
             android:name=".Splash_Screen_Activity"
