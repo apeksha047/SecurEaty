@@ -2,6 +2,7 @@ package com.example.secureaty;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,30 +25,58 @@ import java.util.regex.Pattern;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
-public class DecompileAction extends AsyncTask<File, Void, String> {
+public class DecompileAction extends AsyncTask<File, Integer, String> {
     private Exception exception;
     private String decompileUrl = "http://app.apkdecompilers.com/app.php";
     private Pattern decompiledZipPattern = Pattern.compile("https:\\/\\/app.apkdecompilers.com\\/download\\/.*\\.apk\\.zip");
+    private DecompileItem item;
 
     protected String doInBackground(File... file) {
         try {
+                publishProgress(5);
             String downloadUrl = decompile(file[0]);
+                publishProgress(30);
             File zipFile = download(downloadUrl);
+                publishProgress(50);
             File unpackedDir = unzip(zipFile);
+                publishProgress(60);
             String code = extractSources(unpackedDir);
+                publishProgress(70);
             Log.d("Done", "Symbols read: " + code.length());
-//            File DOAcode = File.createTempFile("PleaseWorkcode", ".txt", null);
-//            FileWriter fw = new FileWriter(DOAcode);
-//            fw.write(code);
-//            fw.close();
-//            Log.d("File created", "file created");
+
             boolean DOAdetected = DOADetector.detect(code);
+                publishProgress(80);
+            boolean MetasploitDetected = MetasploitDetector.detect(code);
+                publishProgress(90);
+            boolean OverlayDetected = OverlayDetector.detect(code);
+                publishProgress(100);
+
+            if(DOAdetected) {
+                this.item.setAttack(Attack.Doa);
+            }
+            else if (MetasploitDetected) {
+                this.item.setAttack(Attack.Metasploit);
+            }
+            else if (OverlayDetected) {
+                this.item.setAttack(Attack.Overlay);
+            }
             Log.d("DOAdetected", String.valueOf(DOAdetected));
+            Log.d("Metasploitdetected", String.valueOf(MetasploitDetected));
 
         } catch (Exception e) {
             this.exception = e;
         }
         return null;
+    }
+
+    public void setItem(DecompileItem item){
+        this.item = item;
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... progress) {
+        Log.d("onProgressUpdate", "yes");
+        this.item.setProgress(progress[0]);
     }
 
     protected void onPostExecute(String result) {
@@ -142,7 +171,6 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
     }
 
     private String extractSources(File unpackedApkDir) {
-        Log.d("Extracting sources", unpackedApkDir.getPath());
         StringBuilder result = new StringBuilder();
         File manifestFile = new File(unpackedApkDir.getPath() + "/AndroidManifest.xml");
         try {
@@ -150,16 +178,16 @@ public class DecompileAction extends AsyncTask<File, Void, String> {
             result.append(scanner.useDelimiter("\0").next());
             scanner.close();
         } catch (FileNotFoundException e) {
-            Log.d("Extracting sources", "File not found: " + manifestFile.getPath());
+            //Log.d("Extracting sources", "File not found: " + manifestFile.getPath());
         }
         for (File file : getSourceFilesRecursive(unpackedApkDir)) {
-            Log.d("Extracting sources", "file: " + file);
+            //Log.d("Extracting sources", "file: " + file);
             try {
                 Scanner scanner = new Scanner(file);
                 result.append(scanner.useDelimiter("\0").next());
                 scanner.close();
             } catch (FileNotFoundException e) {
-                Log.d("Extracting sources", "File not found: " + file.getPath());
+               // Log.d("Extracting sources", "File not found: " + file.getPath());
             }
         }
         Log.d("Extracting sources", "Done: " + unpackedApkDir.getPath());
