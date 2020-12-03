@@ -14,33 +14,60 @@ import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity {
-    Button Scanbtn;
+    Button Scanbtn,KarmaDetectorBtn, permissionControllerBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        try {
-//            Scanner scanner = new Scanner(new File("/data/user/0/com.example.secureaty/cache/cloak.txt"));
-//            StringBuilder result = new StringBuilder();
-//            result.append(scanner.useDelimiter("\0").next());
-//            scanner.close();
-//            boolean OverlayDetected = OverlayDetector.detect(result.toString());
-//            Log.d("overlaydetected", String.valueOf(OverlayDetected));
-//
-//        } catch (IOException e){}
         Scanbtn = (Button) findViewById(R.id.Scanbutton);
+        KarmaDetectorBtn = findViewById(R.id.karma_detector_btn);
+        permissionControllerBtn = (Button) findViewById(R.id.permissionControllerBtn);
+
         Scanbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ChooseFileActivity();
             }
         });
+
+        KarmaDetectorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KarmaAttackDetector();
+            }
+        });
+
+        permissionControllerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAllActivityInstalledIntent();
+            }
+        });
+
     }
 
+    public void KarmaAttackDetector(){
+        Intent intent_karmaAttackDetector=new Intent(this,KarmaAttackDetector.class);
+        startActivity(intent_karmaAttackDetector);
+    }
 
-    public void ChooseFileActivity(){
-        Intent intent_chooseFileActivity= new Intent(this,ChooseFileActivity.class);
+    private void openAllActivityInstalledIntent(){
+        Intent allInstalledActivityIntent = new Intent(MainActivity.this, AllInstalledAppsActivity.class);
+        startActivity(allInstalledActivityIntent);
+    }
+
+    public void ChooseFileActivity() {
+//        Intent intent_chooseFileActivity= new Intent(this,ChooseFileActivity.class);
+//        startActivity(intent_chooseFileActivity);
+        Intent intent_chooseFileActivity = new Intent(this, ChooseFileActivity.class);
+        intent_chooseFileActivity.putExtra("EXTRA_SESSION_ID", "0");
+        startActivity(intent_chooseFileActivity);
+    }
+
+    public void check(View view) {
+        Intent intent_chooseFileActivity = new Intent(this, ChooseFileActivity.class);
+        intent_chooseFileActivity.putExtra("EXTRA_SESSION_ID", "1");
         startActivity(intent_chooseFileActivity);
     }
 }
